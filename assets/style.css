@@ -59,7 +59,7 @@ nav a {
 }
 
 .intro {
-  padding: 110px 0 130px;
+  padding: 100px 0 90px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -83,6 +83,15 @@ nav a {
   max-width: 600px;
   color: var(--muted);
   font-size: 18px;
+}
+
+.intro-keywords {
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 600;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
 }
 
 .post-section {
