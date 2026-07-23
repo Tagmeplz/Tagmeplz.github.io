@@ -7,41 +7,98 @@ title: 글
   <p class="eyebrow">WRITING ARCHIVE</p>
 
   <h1>
-    pyeonghwa2703,<br>
-    개인 기록장
+    정치와 사회,<br>
+    문화의 장면을 기록합니다.
   </h1>
 
   <p>
-    내 개인적 감정과,
-    가치관을 담은 이야기를 씁니다.
+    정치외교학을 공부하며 기사와 에세이,
+    사람들의 이야기를 씁니다.
   </p>
 </section>
 
-<section class="post-section">
-  <div class="section-title">
-    <h2>최근 글</h2>
-    <span>{{ site.posts.size }}개의 글</span>
-  </div>
+{% if site.posts.size > 0 %}
 
-  <div class="post-list">
-    {% for post in site.posts %}
-      <article class="post-card">
-        <a href="{{ post.url | relative_url }}">
-          <p class="post-category">
-            {{ post.category }}
-          </p>
+  <!-- 카테고리 바로가기 -->
+  <section class="category-menu">
+    <div class="section-title">
+      <h2>카테고리</h2>
+      <span>{{ site.categories.size }}개</span>
+    </div>
 
-          <h3>{{ post.title }}</h3>
+    <div class="category-buttons">
+      {% assign categories = site.categories | sort %}
 
-          <p class="post-description">
-            {{ post.description }}
-          </p>
-
-          <time>
-            {{ post.date | date: "%Y.%m.%d" }}
-          </time>
+      {% for category in categories %}
+        <a href="#category-{{ forloop.index }}">
+          {{ category[0] }}
+          <span>{{ category[1].size }}</span>
         </a>
-      </article>
-    {% endfor %}
-  </div>
-</section>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- 카테고리별 글 목록 -->
+  {% assign categories = site.categories | sort %}
+
+  {% for category in categories %}
+    <section
+      id="category-{{ forloop.index }}"
+      class="post-section category-section"
+    >
+      <div class="section-title">
+        <h2>{{ category[0] }}</h2>
+        <span>{{ category[1].size }}개의 글</span>
+      </div>
+
+      <div class="post-grid">
+
+        {% for post in category[1] %}
+          <article class="post-card">
+            <a href="{{ post.url | relative_url }}">
+
+              {% if post.image %}
+                <img
+                  class="post-thumbnail"
+                  src="{{ post.image | relative_url }}"
+                  alt="{{ post.title }}"
+                >
+              {% else %}
+                <div class="post-thumbnail no-image">
+                  <span>{{ category[0] }}</span>
+                </div>
+              {% endif %}
+
+              <div class="post-card-content">
+                <p class="post-category">
+                  {{ category[0] }}
+                </p>
+
+                <h3>{{ post.title }}</h3>
+
+                {% if post.description %}
+                  <p class="post-description">
+                    {{ post.description }}
+                  </p>
+                {% endif %}
+
+                <time>
+                  {{ post.date | date: "%Y.%m.%d" }}
+                </time>
+              </div>
+
+            </a>
+          </article>
+        {% endfor %}
+
+      </div>
+    </section>
+  {% endfor %}
+
+{% else %}
+
+  <section class="post-section">
+    <h2>아직 등록된 글이 없습니다.</h2>
+  </section>
+
+{% endif %}

@@ -110,26 +110,146 @@ nav a {
   gap: 18px;
 }
 
+/* 카테고리 메뉴 */
+
+.category-menu {
+  padding: 70px 0 40px;
+}
+
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.category-buttons a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.category-buttons a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.category-buttons span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* 카테고리별 구역 */
+
+.category-section {
+  padding-top: 75px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 30px;
+}
+
+/* 글 카드 배열 */
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* 글 카드 */
+
 .post-card {
-  padding: 32px;
+  overflow: hidden;
+
+  padding: 0;
+
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 18px;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .post-card:hover {
-  transform: translateY(-3px);
-  transition: 0.2s;
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
 }
 
-.post-card h3 {
-  margin: 12px 0;
-  font-size: 25px;
+.post-card > a {
+  display: block;
+  height: 100%;
 }
 
-.post-description,
-.post-card time {
+/* 글 대표 사진 */
+
+.post-thumbnail {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  object-fit: cover;
+
+  background: #e5eee9;
+}
+
+.post-thumbnail.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+/* 카드 안의 글 내용 */
+
+.post-card-content {
+  padding: 25px;
+}
+
+.post-card-content h3 {
+  margin: 10px 0 10px;
+
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+.post-card-content .post-description {
+  margin-bottom: 20px;
+
   color: var(--muted);
+
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.post-card-content time {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* 모바일 화면 */
+
+@media (max-width: 700px) {
+  .post-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .post-card-content {
+    padding: 22px;
+  }
 }
 
 .post {
@@ -207,8 +327,12 @@ nav a {
     padding: 70px 0 100px;
   }
 
-  .post-card {
-    padding: 24px;
+  .post-card-content {
+    padding: 20px 20px 24px;
+  }
+
+  .post-grid {
+    grid-template-columns: 1fr;
   }
 
   .post {
