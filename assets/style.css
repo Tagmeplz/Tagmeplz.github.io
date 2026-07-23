@@ -304,12 +304,53 @@ nav a {
   border-radius: 18px;
 }
 
-.post-content {
-  font-size: 18px;
+.post-content,
+.post-body,
+article.post {
+  max-width: 760px;
 }
 
-.post-content h2 {
-  margin-top: 60px;
+.post-content p,
+.post-body p,
+article.post p {
+  margin: 0 0 1.55em;
+  font-size: clamp(17px, 1.7vw, 19px);
+  line-height: 1.9;
+  word-break: keep-all;
+}
+
+.post-content h2,
+.post-body h2,
+article.post h2 {
+  margin: 3.2em 0 1em;
+  font-size: clamp(24px, 3vw, 32px);
+  letter-spacing: -0.035em;
+}
+
+.post-content h3,
+.post-body h3,
+article.post h3 {
+  margin: 2.2em 0 0.75em;
+  font-size: clamp(19px, 2.2vw, 23px);
+  letter-spacing: -0.025em;
+}
+
+.post-content blockquote,
+.post-body blockquote,
+article.post blockquote {
+  margin: 2em 0;
+  padding: 1.1em 1.3em;
+  border-left: 3px solid currentColor;
+  background: rgba(127, 127, 127, 0.07);
+  line-height: 1.85;
+}
+
+.post-content hr,
+.post-body hr,
+article.post hr {
+  margin: 4em 0;
+  border: 0;
+  border-top: 1px solid rgba(127, 127, 127, 0.28);
 }
 
 .post-content img {
