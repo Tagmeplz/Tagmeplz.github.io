@@ -132,6 +132,65 @@ title: 글
   </div>
 </section>
 
+<section class="latest-posts">
+  <div class="latest-posts-heading">
+    <div>
+      <p class="section-eyebrow">LATEST WRITING</p>
+      <h2>최근 글</h2>
+    </div>
+
+    <p>가장 최근에 기록한 두 편</p>
+  </div>
+
+  <div class="post-grid latest-post-grid">
+    {% for post in site.posts limit: 2 %}
+      <article class="post-card latest-post-card">
+        <a
+          class="post-card-link"
+          href="{{ post.url | relative_url }}"
+        >
+          {% if post.image %}
+            <div class="post-thumbnail">
+              <img
+                src="{{ post.image | relative_url }}"
+                alt="{{ post.image_alt | default: post.title }}"
+              >
+            </div>
+          {% else %}
+            <div class="post-thumbnail post-placeholder latest-placeholder">
+              <span>Latest Writing</span>
+            </div>
+          {% endif %}
+
+          <div class="post-card-content">
+            <div class="post-meta">
+              <span>{{ post.category }}</span>
+
+              <time datetime="{{ post.date | date_to_xmlschema }}">
+                {{ post.date | date: "%Y.%m.%d" }}
+              </time>
+            </div>
+
+            <h3>{{ post.title }}</h3>
+
+            {% if post.description %}
+              <p>{{ post.description }}</p>
+            {% else %}
+              <p>
+                {{ post.excerpt | strip_html | truncate: 110 }}
+              </p>
+            {% endif %}
+
+            <span class="read-more">
+              글 읽기 →
+            </span>
+          </div>
+        </a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
 {% else %}
 
 <section class="empty-archive">
