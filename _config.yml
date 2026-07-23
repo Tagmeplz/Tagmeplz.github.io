@@ -1,0 +1,19 @@
+title: 변민솔의 기록
+description: 정치와 사회, 문화의 장면을 관찰하고 기록합니다.
+author: 변민솔
+lang: ko-KR
+
+url: "https://tagmeplz.github.io"
+baseurl: ""
+
+permalink: /writing/:title/
+
+markdown: kramdown
+
+theme: minima
+
+plugins:
+  - jekyll-feed
+
+exclude:
+  - README.md

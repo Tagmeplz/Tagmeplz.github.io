@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+<article class="post">
+  <header class="post-header">
+    <p class="post-category">
+      {{ page.category }}
+    </p>
+
+    <h1>{{ page.title }}</h1>
+
+    <p class="post-date">
+      {{ page.date | date: "%Y년 %m월 %d일" }}
+    </p>
+  </header>
+
+  {% if page.image %}
+    <img
+      class="post-cover"
+      src="{{ page.image | relative_url }}"
+      alt="{{ page.title }}"
+    >
+  {% endif %}
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  <a class="back-link" href="{{ '/' | relative_url }}">
+    ← 전체 글 보기
+  </a>
+</article>
