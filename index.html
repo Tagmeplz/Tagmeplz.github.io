@@ -7,7 +7,8 @@ title: 글
   <p class="eyebrow">WRITING ARCHIVE</p>
 
   <h1 class="blog-title">
-    tagmeplz님의 블로그
+    <span class="blog-name">tagmeplz</span>
+    <span class="blog-description">님의 블로그</span>
   </h1>
 
   <div class="intro-keywords">
@@ -21,86 +22,206 @@ title: 글
 
 {% if site.posts.size > 0 %}
 
-  <!-- 카테고리 바로가기 -->
-  <section class="category-menu">
-    <div class="section-title">
+<section class="category-archive">
+  <div class="category-heading">
+    <div>
+      <p class="section-eyebrow">ARCHIVE BY SUBJECT</p>
+
       <h2>카테고리</h2>
-      <span>{{ site.categories.size }}개</span>
+
+      <p class="green-ideology">
+        <strong>녹색이념</strong>
+        <span>Green Ideology</span>
+      </p>
     </div>
 
-    <div class="category-buttons">
-      {% assign categories = site.categories | sort %}
+    <p class="category-total">
+      {{ site.categories | size }}개
+    </p>
+  </div>
 
-      {% for category in categories %}
-        <a href="#category-{{ forloop.index }}">
-          {{ category[0] }}
-          <span>{{ category[1].size }}</span>
-        </a>
-      {% endfor %}
-    </div>
-  </section>
+  {% assign sorted_categories = site.categories | sort %}
 
-  <!-- 카테고리별 글 목록 -->
-  {% assign categories = site.categories | sort %}
+  <div class="category-buttons" role="tablist">
+    {% for category_data in sorted_categories %}
+      {% assign category_name = category_data[0] %}
+      {% assign category_posts = category_data[1] %}
 
-  {% for category in categories %}
-    <section
-      id="category-{{ forloop.index }}"
-      class="post-section category-section"
-    >
-      <div class="section-title">
-        <h2>{{ category[0] }}</h2>
-        <span>{{ category[1].size }}개의 글</span>
-      </div>
+      <button
+        type="button"
+        class="category-button"
+        data-category="{{ category_name | escape }}"
+        aria-expanded="false"
+      >
+        <span>{{ category_name }}</span>
+        <small>{{ category_posts | size }}</small>
+      </button>
+    {% endfor %}
+  </div>
 
-      <div class="post-grid">
+  <p class="category-guide" id="category-guide">
+    카테고리를 선택하면 해당 글이 표시됩니다.
+  </p>
 
-        {% for post in category[1] %}
-          <article class="post-card">
-            <a href="{{ post.url | relative_url }}">
+  <div class="category-results">
+    {% for category_data in sorted_categories %}
+      {% assign category_name = category_data[0] %}
+      {% assign category_posts = category_data[1] %}
 
-              {% if post.image %}
-                <img
-                  class="post-thumbnail"
-                  src="{{ post.image | relative_url }}"
-                  alt="{{ post.title }}"
-                >
-              {% else %}
-                <div class="post-thumbnail no-image">
-                  <span>{{ category[0] }}</span>
-                </div>
-              {% endif %}
+      <section
+        class="category-panel"
+        data-category-panel="{{ category_name | escape }}"
+        hidden
+      >
+        <div class="category-panel-heading">
+          <h2>{{ category_name }}</h2>
 
-              <div class="post-card-content">
-                <p class="post-category">
-                  {{ category[0] }}
-                </p>
+          <p>
+            {{ category_posts | size }}개의 글
+          </p>
+        </div>
 
-                <h3>{{ post.title }}</h3>
-
-                {% if post.description %}
-                  <p class="post-description">
-                    {{ post.description }}
-                  </p>
+        <div class="post-grid">
+          {% for post in category_posts %}
+            <article class="post-card">
+              <a
+                class="post-card-link"
+                href="{{ post.url | relative_url }}"
+              >
+                {% if post.image %}
+                  <div class="post-thumbnail">
+                    <img
+                      src="{{ post.image | relative_url }}"
+                      alt="{{ post.image_alt | default: post.title }}"
+                    >
+                  </div>
+                {% else %}
+                  <div class="post-thumbnail post-placeholder">
+                    <span>{{ category_name }}</span>
+                  </div>
                 {% endif %}
 
-                <time>
-                  {{ post.date | date: "%Y.%m.%d" }}
-                </time>
-              </div>
+                <div class="post-card-content">
+                  <div class="post-meta">
+                    <span>{{ category_name }}</span>
+                    <time datetime="{{ post.date | date_to_xmlschema }}">
+                      {{ post.date | date: "%Y.%m.%d" }}
+                    </time>
+                  </div>
 
-            </a>
-          </article>
-        {% endfor %}
+                  <h3>{{ post.title }}</h3>
 
-      </div>
-    </section>
-  {% endfor %}
+                  {% if post.description %}
+                    <p>{{ post.description }}</p>
+                  {% else %}
+                    <p>
+                      {{ post.excerpt | strip_html | truncate: 100 }}
+                    </p>
+                  {% endif %}
+
+                  <span class="read-more">
+                    글 읽기 →
+                  </span>
+                </div>
+              </a>
+            </article>
+          {% endfor %}
+        </div>
+      </section>
+    {% endfor %}
+  </div>
+</section>
 
 {% else %}
 
-  <section class="post-section">
-    <h2>아직 등록된 글이 없습니다.</h2>
-  </section>
+<section class="empty-archive">
+  <p>아직 등록된 글이 없습니다.</p>
+</section>
 
 {% endif %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const buttons = document.querySelectorAll(".category-button");
+  const panels = document.querySelectorAll(".category-panel");
+  const guide = document.getElementById("category-guide");
+
+  function closeCategories() {
+    buttons.forEach(function (button) {
+      button.classList.remove("active");
+      button.setAttribute("aria-expanded", "false");
+    });
+
+    panels.forEach(function (panel) {
+      panel.hidden = true;
+    });
+
+    if (guide) {
+      guide.hidden = false;
+    }
+  }
+
+  function openCategory(categoryName, selectedButton) {
+    closeCategories();
+
+    const selectedPanel = Array.from(panels).find(function (panel) {
+      return panel.dataset.categoryPanel === categoryName;
+    });
+
+    if (!selectedPanel) {
+      return;
+    }
+
+    selectedButton.classList.add("active");
+    selectedButton.setAttribute("aria-expanded", "true");
+    selectedPanel.hidden = false;
+
+    if (guide) {
+      guide.hidden = true;
+    }
+
+    history.replaceState(
+      null,
+      "",
+      "#category=" + encodeURIComponent(categoryName)
+    );
+  }
+
+  buttons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      const categoryName = button.dataset.category;
+      const isAlreadyOpen = button.classList.contains("active");
+
+      if (isAlreadyOpen) {
+        closeCategories();
+
+        history.replaceState(
+          null,
+          "",
+          window.location.pathname + window.location.search
+        );
+
+        return;
+      }
+
+      openCategory(categoryName, button);
+    });
+  });
+
+  const hash = window.location.hash;
+
+  if (hash.startsWith("#category=")) {
+    const categoryName = decodeURIComponent(
+      hash.replace("#category=", "")
+    );
+
+    const matchingButton = Array.from(buttons).find(function (button) {
+      return button.dataset.category === categoryName;
+    });
+
+    if (matchingButton) {
+      openCategory(categoryName, matchingButton);
+    }
+  }
+});
+</script>
