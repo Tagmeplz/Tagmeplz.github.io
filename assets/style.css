@@ -79,19 +79,35 @@ nav a {
   letter-spacing: -0.055em;
 }
 
-.intro > p:last-child {
-  max-width: 600px;
-  color: var(--muted);
-  font-size: 18px;
+.blog-title {
+  margin: 18px 0 32px;
+  font-size: clamp(48px, 8vw, 92px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.065em;
 }
 
 .intro-keywords {
-  margin: 22px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+}
+
+.intro-keywords span {
+  padding: 9px 15px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
   color: var(--muted);
-  font-size: clamp(18px, 2.5vw, 26px);
-  font-weight: 600;
-  line-height: 1.7;
-  letter-spacing: 0.02em;
+  font-size: clamp(14px, 1.7vw, 18px);
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.intro-keywords span:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 .post-section {
